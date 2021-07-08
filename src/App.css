@@ -1,1 +1,9 @@
-/* Other rules */
+/* GENERAL SETTINGS */
+
+html {
+  font-size: 62.5%; /* Ré-équilibrage du `rem` face au `px` pour des calculs simples */
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
