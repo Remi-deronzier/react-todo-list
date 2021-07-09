@@ -1,8 +1,9 @@
 import "./App.css";
 import { useState } from "react";
+import Search from "./Components/Search";
+import Tasks from "./Components/Tasks";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(faTrash);
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
 
   // Add a new task
   const handleAddTask = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     setTask(value);
   };
 
@@ -65,47 +66,16 @@ function App() {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Which task are you looking for ?"
-        onChange={handleSearch}
+      <Search handleSearch={handleSearch} />
+      <Tasks
+        tasksResult={tasksResult}
+        handleChecked={handleChecked}
+        tasksDB={tasksDB}
+        handleDeleteTask={handleDeleteTask}
+        handleSubmit={handleSubmit}
+        task={task}
+        handleAddTask={handleAddTask}
       />
-      <div className="tasksDB">
-        {tasksResult.map((task, index) => {
-          return (
-            <div key={index}>
-              <input
-                type="checkbox"
-                checked={task[1]} // Check whether a checkbox is checked or not
-                id={`task${index}`} // Link label and input field
-                onChange={() => handleChecked(index)}
-              ></input>
-              <label
-                htmlFor={`task${index}`}
-                style={{ textDecoration: tasksDB[index][1] && "line-through" }} // Strike out text when a chekbox is checked
-              >
-                {" "}
-                {task[0]}
-              </label>
-              <FontAwesomeIcon
-                icon="trash"
-                onClick={() => handleDeleteTask(index)}
-                className="trash"
-              />
-            </div>
-          );
-        })}
-      </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="New task"
-          value={task}
-          onChange={handleAddTask}
-          required
-        />
-        <button type="submit">Add task</button>
-      </form>
     </div>
   );
 }
