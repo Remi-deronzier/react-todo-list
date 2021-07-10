@@ -1,10 +1,12 @@
 import "./App.css";
 import { useState } from "react";
+import Footer from "./Components/Footer";
 import Search from "./Components/Search";
 import Tasks from "./Components/Tasks";
+import Header from "./Components/Header";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-library.add(faTrash);
+import { faTrash, faListAlt } from "@fortawesome/free-solid-svg-icons";
+library.add(faTrash, faListAlt);
 
 function App() {
   const [tasksDB, setTasksDB] = useState([]); // [["My first task",false], ["My second task",true]]
@@ -49,6 +51,9 @@ function App() {
     setTasksResult(newSearchTasks);
   };
 
+  // Display or not the search bar whether tasks have been entered
+  const isTasksDBEmpty = tasksDB.length !== 0;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newTasks = [...tasksDB];
@@ -61,21 +66,24 @@ function App() {
     setTasksDB(newTasks);
     setTask(""); // Reset input field "New task"
     setTasksResult(newTasks);
-    console.log(tasksResult);
   };
 
   return (
     <div>
-      <Search handleSearch={handleSearch} />
-      <Tasks
-        tasksResult={tasksResult}
-        handleChecked={handleChecked}
-        tasksDB={tasksDB}
-        handleDeleteTask={handleDeleteTask}
-        handleSubmit={handleSubmit}
-        task={task}
-        handleAddTask={handleAddTask}
-      />
+      <Header />
+      <main className="container">
+        <Search handleSearch={handleSearch} isTasksDBEmpty={isTasksDBEmpty} />
+        <Tasks
+          tasksResult={tasksResult}
+          handleChecked={handleChecked}
+          tasksDB={tasksDB}
+          handleDeleteTask={handleDeleteTask}
+          handleSubmit={handleSubmit}
+          task={task}
+          handleAddTask={handleAddTask}
+        />
+      </main>
+      <Footer />
     </div>
   );
 }

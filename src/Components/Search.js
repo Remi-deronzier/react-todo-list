@@ -1,10 +1,13 @@
-const Search = ({ handleSearch }) => {
+const Search = ({ handleSearch, isTasksDBEmpty }) => {
   return (
-    <input
-      type="text"
-      placeholder="Which task are you looking for ?"
-      onChange={handleSearch}
-    />
+    <div className={isTasksDBEmpty ? "search" : "hidden"}>
+      <input
+        type="text"
+        placeholder="Which task are you looking for ?"
+        onChange={handleSearch}
+        className="input-search"
+      />
+    </div>
   );
 };
 

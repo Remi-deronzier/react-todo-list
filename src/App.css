@@ -4,10 +4,180 @@ html {
   font-size: 62.5%; /* Ré-équilibrage du `rem` face au `px` pour des calculs simples */
 }
 
+:root {
+  --purple: #5c48d3;
+  --transition-time: 0.3s;
+  --transition-scale: 1.1;
+  --transition-opacity: 0.8;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
 }
 
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+
+header {
+  height: 100px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 4.8rem;
+  display: flex;
+  padding-left: 70px;
+  align-items: center;
+}
+
+h1:hover {
+  cursor: pointer;
+}
+
+.list-alt {
+  color: var(--purple);
+  margin-right: 40px;
+}
+
+.list-alt:hover {
+  cursor: pointer;
+}
+
+/* MAIN */
+
+main {
+  padding-bottom: 180px;
+}
+
+/* Tasks */
+
+/* Form + Search */
+.search {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 60px;
+}
+
+.hidden {
+  display: none;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+}
+
+.input-new-task,
+.input-search {
+  width: 548px;
+  height: 65px;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 10px;
+  padding-left: 25px;
+  box-sizing: border-box;
+  border: 1px solid var(--purple);
+  background: #f2f7fd;
+  font-size: 2.4rem;
+}
+
+.input-new-task:focus,
+.input-search:focus {
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid #3ec760;
+}
+
+.btn-add-task {
+  width: 130px;
+  height: 65px;
+  background: var(--purple);
+  border-radius: 10px;
+  color: white;
+  font-size: 2.2rem;
+  font-family: "Montserrat", sans-serif;
+  margin-left: 57px;
+  border: none;
+  opacity: 0.8;
+  transition: all var(--transition-time);
+}
+
+.btn-add-task:hover {
+  cursor: pointer;
+  opacity: var(--transition-opacity);
+  transform: scale(var(--transition-scale));
+}
+
+/* Div tasks */
+.tasks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2.4rem;
+  margin-bottom: 50px;
+}
+
+.task:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.input-checkbox {
+  transform: scale(1.7);
+  transition: transform var(--transition-time);
+  margin-right: 20px;
+}
+
+.input-checkbox:hover {
+  cursor: pointer;
+  transform: scale(1.9);
+}
+
+.lb-checkbox {
+  cursor: pointer;
+}
+
 .trash {
   margin-left: 20px;
+  color: var(--purple);
+  opacity: var(--transition-opacity);
+  transition: all var(--transition-time);
+}
+
+.trash:hover {
+  cursor: pointer;
+  opacity: 1;
+  transform: scale(var(--transition-scale));
+}
+
+/* FOOTER */
+
+footer {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  height: 100px;
+  background-color: #cac9c9;
+}
+
+.center-footer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+
+.p-footer {
+  font-size: 2rem;
+}
+
+a {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
 }

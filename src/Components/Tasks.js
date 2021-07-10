@@ -14,14 +14,16 @@ const Tasks = ({
       <div className="tasks">
         {tasksResult.map((task, index) => {
           return (
-            <div key={index}>
+            <div key={index} className="task">
               <input
+                className="input-checkbox"
                 type="checkbox"
                 checked={task[1]} // Check whether a checkbox is checked or not
                 id={`task${index}`} // Link label and input field
                 onChange={() => handleChecked(index)}
               ></input>
               <label
+                className="lb-checkbox"
                 htmlFor={`task${index}`}
                 style={{ textDecoration: tasksDB[index][1] && "line-through" }} // Strike out text when a chekbox is checked
               >
@@ -37,15 +39,18 @@ const Tasks = ({
           );
         })}
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <input
+          className="input-new-task"
           type="text"
           placeholder="New task"
           value={task}
           onChange={handleAddTask}
           required
         />
-        <button type="submit">Add task</button>
+        <button type="submit" className="btn-add-task">
+          Add task
+        </button>
       </form>
     </>
   );
