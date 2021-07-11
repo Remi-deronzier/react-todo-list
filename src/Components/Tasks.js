@@ -8,6 +8,7 @@ const Tasks = ({
   handleSubmit,
   task,
   handleAddTask,
+  darkMode,
 }) => {
   return (
     <>
@@ -23,7 +24,7 @@ const Tasks = ({
                 onChange={() => handleChecked(index)}
               ></input>
               <label
-                className="lb-checkbox"
+                className={darkMode ? "white lb-checkbox" : "lb-checkbox"}
                 htmlFor={`task${index}`}
                 style={{ textDecoration: tasksDB[index][1] && "line-through" }} // Strike out text when a chekbox is checked
               >

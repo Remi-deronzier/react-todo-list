@@ -15,6 +15,7 @@ function App() {
   // tasksDB is the Data Base where all the tasks are stored and not changed when a value is entered in the input field
   const [task, setTask] = useState("");
   const [tasksResult, setTasksResult] = useState([]); // taskResult is the array which change when a value is entered in the input field
+  const [darkMode, setDarkMode] = useState(false); // Dark mode state
 
   // Add a new task
   const handleAddTask = (e) => {
@@ -45,9 +46,10 @@ function App() {
   // Search a task
   const handleSearch = (e) => {
     const value = e.target.value;
-    const newSearchTasks = tasksDB.filter(
-      (task) => task[0].indexOf(value) !== -1
-    );
+    const newSearchTasks = tasksDB.filter((task) => {
+      const regex = RegExp(value, "i");
+      return regex.test(task[0]);
+    });
     setTasksResult(newSearchTasks);
   };
 
@@ -68,9 +70,27 @@ function App() {
     setTasksResult(newTasks);
   };
 
+  // Activate or not dark mode
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  // Detect when the vertical scroll bar appears to fill the whole page when dark mode is activate
+  const screenHeight = window.innerHeight;
+  const totalHeight = document.body.scrollHeight;
+  const isVerticalScrollHere = screenHeight < totalHeight;
+
   return (
-    <div>
-      <Header />
+    <div
+      className={
+        darkMode && !isVerticalScrollHere
+          ? "body-dark first-div"
+          : darkMode
+          ? "body-dark"
+          : undefined
+      }
+    >
+      <Header handleDarkMode={handleDarkMode} darkMode={darkMode} />
       <main className="container">
         <Search handleSearch={handleSearch} isTasksDBEmpty={isTasksDBEmpty} />
         <Tasks
@@ -81,9 +101,10 @@ function App() {
           handleSubmit={handleSubmit}
           task={task}
           handleAddTask={handleAddTask}
+          darkMode={darkMode}
         />
       </main>
-      <Footer />
+      <Footer darkMode={darkMode} />
     </div>
   );
 }

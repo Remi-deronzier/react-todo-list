@@ -4,11 +4,27 @@ html {
   font-size: 62.5%; /* Ré-équilibrage du `rem` face au `px` pour des calculs simples */
 }
 
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+.first-div {
+  height: 100%;
+}
+
 :root {
   --purple: #5c48d3;
+  --purple-light: #1f0c8a;
   --transition-time: 0.3s;
   --transition-scale: 1.1;
   --transition-opacity: 0.8;
+  --green: #3ec760;
+  --green-light: #1d6934;
 }
 
 body {
@@ -23,12 +39,29 @@ body {
 /* HEADER */
 
 header {
-  height: 100px;
   border-bottom: 1px solid #e5e5e5;
+}
+
+.nav {
+  height: 100px;
   font-size: 4.8rem;
   display: flex;
-  padding-left: 70px;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.call1 {
+  display: flex;
+}
+
+.call2 {
+  display: flex;
+}
+
+.p-toggle-dark-light {
+  width: 260px;
+  font-size: 2.2rem;
 }
 
 h1:hover {
@@ -42,6 +75,44 @@ h1:hover {
 
 .list-alt:hover {
   cursor: pointer;
+}
+
+/* Toggle : switch light mode to dark mode */
+
+.toggle-dark-light {
+  display: none;
+}
+
+.lb-toggle-dark-light {
+  display: block;
+  cursor: pointer;
+  width: 70px;
+  height: 40px;
+  background-color: var(--purple);
+  border-radius: 25px;
+  transition: all 0.4s ease-out;
+}
+
+.lb-toggle-dark-light::after {
+  content: "";
+  display: block;
+  position: relative;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--purple-light);
+  border-radius: 50%;
+  transition: all 0.4s ease-out;
+}
+
+.toggle-dark-light:checked + label {
+  background: var(--green);
+}
+
+.toggle-dark-light:checked + label::after {
+  transform: translateX(100%);
+  background-color: var(--green-light);
 }
 
 /* MAIN */
@@ -86,7 +157,7 @@ main {
 .input-search:focus {
   outline: none;
   border-radius: 10px;
-  border: 1px solid #3ec760;
+  border: 1px solid var(--green);
 }
 
 .btn-add-task {
@@ -99,13 +170,13 @@ main {
   font-family: "Montserrat", sans-serif;
   margin-left: 57px;
   border: none;
-  opacity: 0.8;
+  opacity: var(--transition-opacity);
   transition: all var(--transition-time);
 }
 
 .btn-add-task:hover {
   cursor: pointer;
-  opacity: var(--transition-opacity);
+  opacity: 1;
   transform: scale(var(--transition-scale));
 }
 
@@ -130,7 +201,7 @@ main {
 
 .input-checkbox:hover {
   cursor: pointer;
-  transform: scale(1.9);
+  transform: scale(2);
 }
 
 .lb-checkbox {
@@ -180,4 +251,32 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+/* DARK MODE */
+
+.body-dark {
+  background-color: #1e2334;
+}
+
+.header-dark {
+  background-color: #2c3049;
+}
+
+.white {
+  color: white;
+}
+
+.footer-dark {
+  background: #1e2334;
+  background: linear-gradient(
+    90deg,
+    #1e2334 0%,
+    rgb(89, 73, 114) 35%,
+    var(--purple) 100%
+  );
+}
+
+.a-dark {
+  color: white;
 }
