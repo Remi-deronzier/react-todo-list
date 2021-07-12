@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Footer from "./Components/Footer";
 import Search from "./Components/Search";
 import Tasks from "./Components/Tasks";
@@ -7,15 +7,32 @@ import Header from "./Components/Header";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash, faListAlt } from "@fortawesome/free-solid-svg-icons";
 library.add(faTrash, faListAlt);
+const axios = require("axios");
 
-function App() {
-  const [tasksDB, setTasksDB] = useState([]); // [["My first task",false], ["My second task",true]]
+const App = () => {
+  const [tasksDB, setTasksDB] = useState([]); // [{name: "My first task", done: false}, {name: "My second task",done: true}]
   // false = checkbox not checked
   // true = checkbox checked
   // tasksDB is the Data Base where all the tasks are stored and not changed when a value is entered in the input field
   const [task, setTask] = useState("");
   const [tasksResult, setTasksResult] = useState([]); // taskResult is the array which change when a value is entered in the input field
   const [darkMode, setDarkMode] = useState(false); // Dark mode state
+
+  // Load the data from the DB
+
+  const getTaskDB = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/");
+      setTasksResult(response.data);
+      setTasksDB(response.data);
+    } catch (error) {
+      return error.message;
+    }
+  };
+
+  useEffect(() => {
+    getTaskDB();
+  }, []);
 
   // Add a new task
   const handleAddTask = (e) => {
@@ -24,31 +41,37 @@ function App() {
   };
 
   // Strike out text when a checkbox is checked
-  const handleChecked = (index) => {
-    const newTasks = [...tasksDB];
-    newTasks[index][1] = !newTasks[index][1];
+  const handleChecked = async (index) => {
+    const newTasks = [...tasksResult];
+    newTasks[index].done = !newTasks[index].done;
     newTasks.sort((task1, task2) => {
-      const bool1 = task1[1];
-      const bool2 = task2[1];
+      const bool1 = task1.done;
+      const bool2 = task2.done;
       return bool1 === bool2 ? 0 : !bool1 ? -1 : 1;
     });
-    setTasksDB(newTasks);
+    // setTasksDB(newTasks);
     setTasksResult(newTasks);
+    const data = { id: tasksResult[index]._id, done: newTasks[index].done };
+    await updateTaskDB(data);
   };
 
   // Delete a task
-  const handleDeleteTask = (index) => {
-    const newTasks = tasksDB.slice(0, index).concat(tasksDB.slice(index + 1));
-    setTasksDB(newTasks);
+  const handleDeleteTask = async (index) => {
+    const data = { id: tasksResult[index]._id };
+    const newTasks = tasksResult
+      .slice(0, index)
+      .concat(tasksResult.slice(index + 1));
+    // setTasksDB(newTasks);
     setTasksResult(newTasks);
+    await deleteTaskDB(data);
   };
 
   // Search a task
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     const value = e.target.value;
     const newSearchTasks = tasksDB.filter((task) => {
       const regex = RegExp(value, "i");
-      return regex.test(task[0]);
+      return regex.test(task.name);
     });
     setTasksResult(newSearchTasks);
   };
@@ -56,18 +79,43 @@ function App() {
   // Display or not the search bar whether tasks have been entered
   const isTasksDBEmpty = tasksDB.length !== 0;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newTasks = [...tasksDB];
-
-    /* IMPROVEMENT IDEA
-    Why it doesn't work with an object ?
-    newTasks.push({ task: task, checked: checked }); */
-
-    newTasks.push([task, false]);
-    setTasksDB(newTasks);
+    const data = { task: task, done: false };
+    const response = await createTaskDB(data);
+    const newTasks = [...tasksResult];
+    newTasks.push({ name: task, done: false, _id: response._id });
+    // setTasksDB(newTasks);
     setTask(""); // Reset input field "New task"
     setTasksResult(newTasks);
+  };
+
+  // Link with the back-end
+  const createTaskDB = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3000/create", data);
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  };
+
+  const deleteTaskDB = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3000/delete", data);
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  };
+
+  const updateTaskDB = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3000/update", data);
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
   };
 
   // Activate or not dark mode
@@ -75,7 +123,7 @@ function App() {
     setDarkMode(!darkMode);
   };
 
-  // Detect when the vertical scroll bar appears to fill the whole page when dark mode is activate
+  // Detect when the vertical scroll bar appears to fill the whole page when dark mode is activated
   const screenHeight = window.innerHeight;
   const totalHeight = document.body.scrollHeight;
   const isVerticalScrollHere = screenHeight < totalHeight;
@@ -96,7 +144,6 @@ function App() {
         <Tasks
           tasksResult={tasksResult}
           handleChecked={handleChecked}
-          tasksDB={tasksDB}
           handleDeleteTask={handleDeleteTask}
           handleSubmit={handleSubmit}
           task={task}
@@ -107,6 +154,6 @@ function App() {
       <Footer darkMode={darkMode} />
     </div>
   );
-}
+};
 
 export default App;

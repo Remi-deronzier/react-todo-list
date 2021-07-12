@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Tasks = ({
   tasksResult,
   handleChecked,
-  tasksDB,
   handleDeleteTask,
   handleSubmit,
   task,
@@ -19,17 +18,19 @@ const Tasks = ({
               <input
                 className="input-checkbox"
                 type="checkbox"
-                checked={task[1]} // Check whether a checkbox is checked or not
+                checked={task.done} // Check whether a checkbox is checked or not
                 id={`task${index}`} // Link label and input field
                 onChange={() => handleChecked(index)}
               ></input>
               <label
                 className={darkMode ? "white lb-checkbox" : "lb-checkbox"}
                 htmlFor={`task${index}`}
-                style={{ textDecoration: tasksDB[index][1] && "line-through" }} // Strike out text when a chekbox is checked
+                style={{
+                  textDecoration: task.done && "line-through",
+                }} // Strike out text when a chekbox is checked
               >
                 {" "}
-                {task[0]}
+                {task.name}
               </label>
               <FontAwesomeIcon
                 icon="trash"
