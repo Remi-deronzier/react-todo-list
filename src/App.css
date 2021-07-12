@@ -189,14 +189,19 @@ main {
   margin-bottom: 5rem;
 }
 
+.task {
+  display: flex;
+  align-items: center;
+}
+
 .task:not(:last-child) {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .input-checkbox {
   transform: scale(1.7);
   transition: transform var(--transition-time);
-  margin-right: 2rem;
+  margin-right: 3.5rem;
 }
 
 .input-checkbox:hover {
@@ -206,10 +211,16 @@ main {
 
 .lb-checkbox {
   cursor: pointer;
+  line-height: 4rem;
+}
+
+.task-trash {
+  display: flex;
+  align-items: center;
 }
 
 .trash {
-  margin-left: 2rem;
+  margin-left: 3.5rem;
   color: var(--purple);
   opacity: var(--transition-opacity);
   transition: all var(--transition-time);

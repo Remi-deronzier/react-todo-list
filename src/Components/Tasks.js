@@ -22,21 +22,23 @@ const Tasks = ({
                 id={`task${index}`} // Link label and input field
                 onChange={() => handleChecked(index)}
               ></input>
-              <label
-                className={darkMode ? "white lb-checkbox" : "lb-checkbox"}
-                htmlFor={`task${index}`}
-                style={{
-                  textDecoration: task.done && "line-through",
-                }} // Strike out text when a chekbox is checked
-              >
-                {" "}
-                {task.name}
-              </label>
-              <FontAwesomeIcon
-                icon="trash"
-                onClick={() => handleDeleteTask(index)}
-                className="trash"
-              />
+              <div className="task-trash">
+                <label
+                  className={darkMode ? "white lb-checkbox" : "lb-checkbox"}
+                  htmlFor={`task${index}`}
+                  style={{
+                    textDecoration: task.done && "line-through",
+                  }} // Strike out text when a chekbox is checked
+                >
+                  {" "}
+                  {task.name}
+                </label>
+                <FontAwesomeIcon
+                  icon="trash"
+                  onClick={() => handleDeleteTask(index)}
+                  className="trash"
+                />
+              </div>
             </div>
           );
         })}
