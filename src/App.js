@@ -90,7 +90,7 @@ const App = () => {
     setTasksResult(newTasks);
   };
 
-  // Link with the back-end
+  // Link to the back-end
   const createTaskDB = async (data) => {
     try {
       const response = await axios.post("http://localhost:3000/create", data);
