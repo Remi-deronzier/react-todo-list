@@ -61,12 +61,15 @@ const App = () => {
   const handleChecked = async (index) => {
     const newTasks = [...tasksResult];
     newTasks[index].done = !newTasks[index].done;
-    newTasks.sort((task1, task2) => {
-      const bool1 = task1.done;
-      const bool2 = task2.done;
-      return bool1 === bool2 ? 0 : !bool1 ? -1 : 1;
-    });
-    setTasksResult(newTasks);
+    let sortedTasks = [];
+    for (let i = 0; i < newTasks.length; i++) {
+      if (newTasks[i].done) {
+        sortedTasks.push(newTasks[i]);
+      } else {
+        sortedTasks.unshift(newTasks[i]);
+      }
+    }
+    setTasksResult(sortedTasks);
     const data = { id: tasksResult[index]._id, done: newTasks[index].done };
     await updateTaskDB(data);
   };
