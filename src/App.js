@@ -6,6 +6,7 @@ import Tasks from "./Components/Tasks";
 import Header from "./Components/Header";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash, faListAlt } from "@fortawesome/free-solid-svg-icons";
+import Loader from "./Components/Loader";
 library.add(faTrash, faListAlt);
 const axios = require("axios");
 
@@ -17,6 +18,7 @@ const App = () => {
   const [task, setTask] = useState("");
   const [tasksResult, setTasksResult] = useState([]); // taskResult is the array which change when a value is entered in the input field
   const [darkMode, setDarkMode] = useState(false); // Dark mode state
+  const [isLoading, setIsLoading] = useState(true);
 
   // Initialization : Load the data from the DB
   const fetchInitialData = async () => {
@@ -26,6 +28,7 @@ const App = () => {
       );
       setTasksResult(response.data);
       setTasksDB(response.data);
+      setIsLoading(false);
     } catch (error) {
       return error.message;
     }
@@ -165,18 +168,22 @@ const App = () => {
       }
     >
       <Header handleDarkMode={handleDarkMode} darkMode={darkMode} />
-      <main className="container">
-        <Search handleSearch={handleSearch} isTasksDBEmpty={isTasksDBEmpty} />
-        <Tasks
-          tasksResult={tasksResult}
-          handleChecked={handleChecked}
-          handleDeleteTask={handleDeleteTask}
-          handleSubmit={handleSubmit}
-          task={task}
-          handleAddTask={handleAddTask}
-          darkMode={darkMode}
-        />
-      </main>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <main className="container">
+          <Search handleSearch={handleSearch} isTasksDBEmpty={isTasksDBEmpty} />
+          <Tasks
+            tasksResult={tasksResult}
+            handleChecked={handleChecked}
+            handleDeleteTask={handleDeleteTask}
+            handleSubmit={handleSubmit}
+            task={task}
+            handleAddTask={handleAddTask}
+            darkMode={darkMode}
+          />
+        </main>
+      )}
       <Footer darkMode={darkMode} />
     </div>
   );

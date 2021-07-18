@@ -25,6 +25,11 @@ body {
   --transition-opacity: 0.8;
   --green: #3ec760;
   --green-light: #1d6934;
+  --cd-bars: #15dea5;
+  --size: 3vh;
+  --num-bars: 5;
+  --anim-dur: 1000ms;
+  --anim-delay: calc(var(--anim-dur) / var(--num-bars));
 }
 
 body {
@@ -286,6 +291,108 @@ a:hover {
 
 .a-dark {
   color: white;
+}
+
+/* LOADER */
+
+.loader {
+  margin-top: 5rem;
+}
+
+.load {
+  width: calc(var(--size) * 10);
+  height: calc(var(--size) * 7.5);
+  display: flex;
+  justify-content: space-evenly;
+  margin: 20px auto;
+}
+
+.load__bar {
+  background-color: #15dea5;
+  height: 100%;
+  width: var(--size);
+  animation: bars 1s backwards infinite ease-in-out alternate;
+}
+
+.load__bar--1 {
+  animation-delay: 200ms;
+}
+.load__bar--1-inv {
+  animation-delay: 200ms;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: forwards;
+  background: #0e397f;
+}
+.load__bar--2 {
+  animation-delay: 400ms;
+}
+.load__bar--2-inv {
+  animation-delay: 358 ms;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: forwards;
+  background: #0e397f;
+}
+.load__bar--3 {
+  animation-delay: 600ms;
+}
+.load__bar--3-inv {
+  animation-delay: 780ms;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: forwards;
+  background: #0e397f;
+}
+.load__bar--4 {
+  animation-delay: 800ms;
+}
+.load__bar--4-inv {
+  animation-delay: 128ms;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: forwards;
+  background: #0e397f;
+}
+.load__bar--5 {
+  animation-delay: 1000ms;
+}
+.load__bar--5-inv {
+  animation-delay: 2ms;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: forwards;
+  background: #0e397f;
+}
+.load__bar--1-inv:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+.load__bar--2-inv:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+.load__bar--3-inv:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+.load__bar--4-inv:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+.load__bar--5-inv:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+
+@keyframes bars {
+  0% {
+    transform: scaleY(0.5);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.loader p {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 /* RESPONSIVE */
