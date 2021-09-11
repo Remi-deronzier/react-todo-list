@@ -83,8 +83,8 @@ const App = () => {
     const newTasks = tasksResult
       .slice(0, index)
       .concat(tasksResult.slice(index + 1));
-    setTasksResult(newTasks);
     await deleteTaskDB(data);
+    setTasksResult(newTasks);
   };
 
   // Search a task
